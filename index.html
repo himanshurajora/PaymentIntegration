@@ -1,26 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
-  </head>
-  <body>
-    <div id="app">
-      <div class="main">
-        <div class="box">
-          <div class="heading">
-            We Are A Good Organization
-          </div>
-          <h1>And We Help People</h1>
-          <br>
-         <h2> Donate Us Now To Help More and more People</h2>
 
-         <button>Donate Now</button>
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+  <title>Vite App</title>
+</head>
+
+<body>
+  <div id="app">
+    <div class="main">
+      <div class="box">
+        <div class="heading">
+          We Are A Good Organization
         </div>
+        <h1>And We Help People</h1>
+        <br>
+        <h2> Donate Us Now To Help More and more People</h2>
+
+        <button id="donate">Donate Now</button>
       </div>
     </div>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+  </div>
+  <script type="module" src="/src/main.ts"></script>
+  <script>
+    var options = {
+      "key": "rzp_test_mBIBV8rX1LaBok", // Enter the Key ID generated from the Dashboard
+      "amount": "50000", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      "currency": "INR",
+      "name": "Good Organization",
+      "description": "Test Transaction",
+      "image": "https://png.pngtree.com/element_our/sm/20180410/sm_5acd064b75e39.jpg",
+      "order_id": null, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+      "handler": function (response) {
+        alert("Payment Done Successfully")
+      },
+      "prefill": {
+        "name": "Gaurav Kumar",
+        "email": "gaurav.kumar@example.com",
+        "contact": "9999999999"
+      },
+      "notes": {
+        "address": "Razorpay Corporate Office"
+      },
+      "theme": {
+        "color": "#222222"
+      }
+    };
+
+
+    var rzp1 = new Razorpay(options);
+    rzp1.on('payment.failed', function (response) {
+      console.log("PayMent Failed");
+    });
+    
+    document.getElementById('donate').onclick = function (e) {
+      rzp1.open();
+      e.preventDefault();
+    }
+  </script>
+</body>
+
 </html>
